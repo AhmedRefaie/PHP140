@@ -331,76 +331,425 @@ echo $food ['Healthy'][1];/* multi dimintion for arrays */
 
 
 
+$food = array('Healthy'=>
+	array('Meat', 'Chicken') ,
+'UnHealthy'=>
+	array('Pizza', 'Pasta'));
+	
+foreach($food as $element => $inner_array){
+	echo '<strong>'.$element.'</strong><br>';
+	foreach($inner_array as $item){
+		echo $item.'<br>';
+	}
+}/* using foreach to print array items*/
 
 
 
+include "PHPExtra.php";
 
+$var = 'String';
 
+echo $var;/* incudeing other files*/
 
 
 
+include "PHPExtra.php";
 
+echo $var1; /* the var1 is defined in the include file*/
 
 
 
+require 'PHPExtra.php';
+require_once 'PHPExtra.php';/* once means once lol include i time only */
 
 
 
+$string = 'This is a string.';
 
+if(preg_match('/ /', $string)){
+	echo 'Match found.';
+}else{
+	echo 'No match found.';	
+}/* checks for specific stuff in the strigs*/
 
 
 
 
+$string = 'This Dosent Have Space';
 
+function has_space($string){
+	if(preg_match('/ /', $string)){
+		return true;
+	}else {
+		return false;
+	}
+}
 
+if(has_space($string)){
+	echo 'Have one space at least';
+}else{
+	echo "Dosen't have space";
+}/* preg_match apps means application not any apps*/
 
 
 
+$string = 'Refaie';
 
+$string_length = strlen($string);
 
+for($x=1;$x<=$string_length;$x++){
+	echo $x.'<br>';
+}/* looping thro a string*/
 
 
 
+$string = 'I could be any cAse.';
 
+$string_lower = strtolower ($string);
+$string_upper = strtoupper ($string);
 
+echo $string_lower.'<br>';
+echo $string_upper;/* upper and lower case control */
 
 
 
+<?php
 
+if(isset($_GET['user_name'])&&!empty($_GET['user_name'])){
+	$user_name = $_GET['user_name'];
+	$user_name_lc = strtolower($user_name);
+	
+	if($user_name_lc=='refaie'){
+		echo 'Your cool,'. $user_name;
+	}
+}
+?>
 
+<form action="PHP.php" method="GET">
+	Name: <input type="Text" name="user_name"><br><br>
+	<input type="submit" value = "Submit!">
+</form> /*upper and lower apps*/
 
 
 
+$offset = 0;
 
+$find = 'We';
+$find_length = strlen($find);
 
+$string = 'Anaaa Haweeet We 2ntaheet We leeh Ba2aa.';
 
 
+while($string_position = strpos($string, $find, $offset)){
+	echo '<strong>'.$find.'</strong> found at '.$string_position.'<br>';
+	$offset = $string_position + $find_length;
+}/* apps for string position */ 
 
 
 
 
+substr();
+str_replace();
 
+substr_replace();/* is a compnation between those 2 actions */
 
 
 
+$string = 'This part don\'t search. This part search.';
+$string_new = substr_replace($string, 'Ref', 29, 4);
 
+echo $string_new;/* ssr example*/
 
 
 
+$find = array('Cow','Now','Brown');
+$replace = array('Dragon','Law','Black');
 
+$string = 'Hey Now Brown Cow.';
 
+$string_new = str_replace($find, $replace, $string);
+echo $string_new ;/* str example replace */
 
 
 
 
+<?php
 
+$find = array('fuck','shit', 'ass');
+$replace = array('F***', 'S***', 'A**');
 
+if(isset($_POST['user_input'])&&!empty($_POST['user_input'])){
+	$user_input = $_POST['user_input'];
+	$user_input_new = str_ireplace($find, $replace, $user_input);
+	
+	echo $user_input_new;
+}
+/* example app for compining to prevent some words*/
+?>
 
+<hr>
 
+<form action="PHP.php" method="POST">
+	<textarea name="user_input" rows="7" cols="30"><?php echo $user_input; ?></textarea><br><br>
+	<input type="submit" value="Submit">
+</form>
 
 
 
 
+
+
+
+<?php
+$offset= 0;
+
+if (isset($_POST['text'])&&isset($_POST['Searchfor'])&&isset($_POST['replacewith'])){
+	$text = $_POST['text'];
+	$search = $_POST['Searchfor'];
+	$replace = $_POST['replacewith'];
+	if(!empty($text)&&!empty($search)&&!empty($replace)){
+	
+	$search_length = strlen($search);
+	
+		while ($strpos = strpos($text, $search, $offset)) {
+			$offset = $strpos + $search_length;
+			$text = substr_replace($text, $replace, $strpos, $search_length);
+		}
+		
+		echo $text;
+
+	}else{
+		echo 'Please fill in all gaps';
+	}
+}
+
+?>
+
+<form action="PHP.php" method="POST">
+	<textarea name="text" rows="6" cols="30"></textarea><br><br>
+	Search for:<br>
+	<input type="text" name="Searchfor"><br><br>
+	Replace with:<br>
+	<input type="text" name="replacewith"><br><br>
+	<input type="submit" value="Find and Replace">
+</form>/* awsome replace program*/
+
+
+
+$time = time();
+$actual_time = date('D M Y @ H:i:s',$time);/* D M Y or d m y */
+
+echo 'The current date & time is: '.$actual_time;
+/*time stamps example */
+
+
+
+
+$time = time();
+$time_now = date('D M Y @ H:i:s',$time);
+$time_edited = date('D M Y @ H:i:s', strtotime('+1 year 3 week 2 hours 20 seconds'));
+
+echo $time_now.'<br>';
+echo $time_edited; /* modifying time stamps */
+
+
+
+
+<?php
+
+if (isset($_POST['roll'])){
+	$rand = rand(1, 6);
+	echo 'You rolled a '.$rand;
+}
+
+?>
+
+<form action="PHP.php" method="Post">
+	<input type="submit" name="roll" value="Roll Dice.">
+</form>/* dice roll app for random function */
+
+
+
+
+$redirect_page = 'http://google.com';
+$redirect = true;
+
+if($redirect==true){
+	header('Location: '.$redirect_page);
+}/* using the header to force page redirect */
+
+
+
+<?php ob_start(); ?>
+
+
+<h1>My page</h1>
+This is my page.
+
+<?php
+
+$redirect_page = 'http://google.com';
+$redirect = false;
+
+if($redirect==true){
+	header('Location: '.$redirect_page);
+}
+
+ob_end_flush();
+?>/* ob malhash lazma bs eshta sha3'al */
+
+
+
+
+<?php 
+include 'PHPExtra.php';
+
+foreach ($ip_blocked as $ip){
+	if ($ip==$ip_address){
+		die('Your IP adress, '.$ip_address.' has been blocked');
+	}
+}
+
+ ?>
+<h1>Welcome <3</h1>
+at extra
+<?php 
+$ip_address = $_SERVER['REMOTE_ADDR'];
+$ip_blocked = array('::1', '127.0.0.1');
+ ?>
+
+
+
+$browser = get_browser(null, true);
+$browser = strtolower($browser['browser']);
+
+if($browser!='chrome'){
+	echo 'You are not using google chrome pleade do!';
+}/* detecting user browser examp*/
+
+
+
+
+
+<?php 
+
+if (isset($_GET['day'])&&isset($_GET['date'])&&isset($_GET['year'])){
+	$day = htmlentities($_GET['day']);
+	$date = htmlentities($_GET['date']);
+	$year = htmlentities($_GET['year']);
+	if(!empty($day)&&!empty($date)&&!empty($year)){
+		echo 'It is '.$day.' '.$date.' '.$year;
+	}else {
+		echo 'Fill in all gaps';
+	}
+}	
+ ?>
+/* htmlentites use to display everytihng without coding security */
+<form action="PHP.php" method="GET">
+	Day:<br><input type="text" name="day"><br>
+	Date:<br><input type="text" name="date"><br>
+	Year:<br><input type="text" name="year"><br><br>
+	<input type="submit" value="Submit">
+</form>
+
+
+
+<?php 
+
+$match = 'refaie123';
+
+if(isset($_POST['password'])){
+	$password = $_POST['password'];
+	if (!empty($password)){
+		if($password==$match){
+			echo 'Welcome Refaie Sir';
+		}else {
+			echo 'Who the fuck are you _|_';
+	}
+		}else {
+			echo'Please enter a password.';
+		}
+}
+?>
+/* post use password exampe */
+<form action="PHP.php" method="POST">
+	Password:<br>
+	<input type="password" name="password"><br><br>
+	<input type="submit" value="Submit">
+</form>
+
+
+
+<?php
+session_start();/*never forget to start the session*/
+
+$_SESSION['username']='refaie';
+/*session apps */ 
+?>
+EXTRA
+<?php 
+session_start();
+
+if (isset($_SESSION['username'])){
+	echo 'Welcome, '.$_SESSION['username'];
+}else {
+	echo 'Please log in';
+}
+?>
+
+session_destroy();/* destoryes all data session*/
+unset($_SESSION['username']);/*for specific destory*/
+
+
+
+setcookie('username', 'ref', time()+20);/* creating cookies */
+
+
+
+setcookie('username', 'ref', time()+20000);
+
+setcookie('username', 'ref', time()-20000);
+/* this is how you kill a cookie */
+
+
+
+$handle= fopen('names.txt', 'w');
+fwrite($handle, 'Ref'."\n");
+
+fclose($handle);
+/* how to handle form php writing also can (r)ead and (a)ppend*/
+
+
+
+
+<?php
+if (isset($_POST['name'])){
+	$name = $_POST['name'];
+	if (!empty($name)) {
+		
+		$handle = fopen('names.txt', 'a');
+		fwrite($handle, $name."\n");
+		fclose($handle);
+	}else{
+		echo 'Please type a name.';
+	}
+}/* appending stuff app*/
+?>
+
+<form action="PHP.php" method="POST">
+	Name:<br>
+	<input type="text" name="name"><br><br>
+	<input type="submit" value="Submit">
+</form>
+
+
+
+
+$filename= 'names.txt'
+
+$handle = fopen($filename, 'r');
+echo fread($handle, filesize($filename));
+/* reading files */
 
 
 
