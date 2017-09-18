@@ -753,17 +753,230 @@ echo fread($handle, filesize($filename));
 
 
 
+$names_array = array('Refaie','5alil','Mecho');
+$string = implode('-' , $names_array);
+
+echo $string;/* usful to display arrays*/
 
 
 
+$directory = 'files';
+
+if ($handle = opendir($directory.'/')){
+	echo 'Looking inside \''.$directory.'\':<br>';
+	
+	while ($file = readdir($handle)) {
+		if($file!='.'&&$file!='..'){
+		echo '<a href="'.$directory.'/'.$file.'">'.$file.'<br>';
+		}
+	}
+}/* handling list of files very usfull if image but img src insted of a href */
 
 
 
+$filename = '420408.jpg';
+
+if(file_exists($filename)){
+	echo 'File already exists.';
+}else{
+	$handle = fopen($filename, 'w');
+	fwrite($handle, 'Nothing');
+	fclose($handle);
+}/* cheks if files exists so dont overwrite*/
 
 
 
+$image='420408.jpg';
+if(unlink($image)) {
+	echo 'File <strong>'.$image.'</storng> has been deleted.';
+}else{
+	echo 'File dosen\'t exists.';
+}/* deleting files babe*/
 
 
+
+$filename = '420408.jpg';
+
+if (rename($filename, 'Lol.udyr'.'.jpg')){
+	echo 'File '.$filename.' has been renamed to '.'Lol.udyr';
+}/* renaming files*/
+
+
+
+<?php
+
+$name = $_FILES['file']['name'];
+//$size = $_FILES['file']['size'];
+//$type = $_FILES['file']['type'];
+
+$tmp_name = $_FILES['file']['tmp_name'];
+
+if(isset($name)){
+	if(!empty($name)){
+	
+	$location = 'PHPExtra.php';
+	
+	if (move_uploaded_file($tmp_name, $location.$name)){
+		echo 'Uploaded';
+	}
+		
+	}else {
+		echo 'Please choose a file';
+	}
+}
+?>
+
+<form action="PHP.php" method="POST" enctype="multipart/form-data">
+	<input type="file" name="file"><br><br>
+	<input type="submit" value="Submit">
+</form>/* how to upload files basics*/
+
+
+
+<?php
+
+$name = $_FILES['file']['name'];
+
+$extension =strtolower( substr($name, strpos($name, '.') + 1));
+$type = $_FILES['file']['type'];
+
+//$size = $_FILES['file']['size'];
+
+$tmp_name = $_FILES['file']['tmp_name'];
+
+if(isset($name)){
+	if(!empty($name)){
+		
+		if($extension=='jpg'||$extension=='jpeg'&&$type=='image/jpeg'){
+	
+	$location = 'Uploads/';
+	
+	if (move_uploaded_file($tmp_name, $location.$name)){
+		echo 'Uploaded';
+	}
+		}else{
+			echo 'File must be jpg/jepg';
+		}
+		
+	}else {
+		echo 'Please choose a file';
+	}
+}
+?>
+
+<form action="PHP.php" method="POST" enctype="multipart/form-data">
+	<input type="file" name="file"><br><br>
+	<input type="submit" value="Submit">
+</form>/* upload and security only imges are allowed*/
+
+
+
+<?php
+
+include 'PHPExtra.php';
+
+hit_count();
+
+?>
+/* when you refresh add 1 to file count.txt*/
+EXRA code
+<?php
+function hit_count(){
+	$filename = 'count.txt';
+	$handle = fopen($filename, 'r');
+	$current = fread($handle, filesize($filename));
+	fclose($handle);
+	
+	$current_inc = $current + 1 ;
+	
+	$handle = fopen($filename, 'w');
+	fwrite($handle, $current_inc);
+	fclose($handle);
+}
+?>
+
+
+
+<?php
+
+
+function hit_count(){
+	$ip_address = $_SERVER['REMOTE_ADDR'];
+	
+	$ip_file = file('Ip.txt');
+	foreach($ip_file as $ip){
+		$ip_single = trim($ip);
+		if($ip_address==$ip_single){
+			$found = true;
+			break;
+		}else{
+			$found = false;
+		}
+	}
+	if($found==false){
+		$filename = 'count.txt';
+		$handle = fopen($filename, 'r');
+		$current = fread($handle, filesize($filename));
+		$current;
+		fclose($handle);
+		
+		$current_inc = $current + 1;
+		
+		$handle = fopen($filename, 'w');
+		fwrite($handle, $current_inc);
+		fclose($handle);
+		
+		$handle = fopen('Ip.txt', 'a');
+		fwrite($handle, $ip_address."\n");
+		fclose($handle);
+	}
+}
+?>/* fucken code to hit count and save ip */
+
+
+
+<?php
+if (isset($_POST['user_password'])&&!empty($_POST['user_password'])){
+	$user_password =md5($_POST['user_password']);
+	
+	$filename='Ip.txt';
+	$handle = fopen($filename, 'r');
+	$file_password = fread($handle, filesize($filename));
+	
+	if($user_password==$file_password){
+		echo 'Welcome Sir';
+	}else{
+		echo 'Incorrect password';
+	}
+	
+}else{
+	echo 'Please enter a password.';
+}
+
+
+?>
+
+<form action="PHP.php" method="POST">
+	Password: <input type="text" name="user_password"><br><br>
+	<input type="submit" value="Submit">
+</form>/* md5 in use password*/
+Ip.txt
+5f4dcc3b5aa765d61d8327deb882cf99
+
+
+
+<?php
+$to = 'ahmedomargreat@gmail.com';
+$subject = 'Email to use';
+$body = 'Ya 3am ana 3omda aft7 ';
+$headers = 'From: Assasin@kills.com';
+
+if(mail($to, $subject, $body, $headers)){
+	echo 'Email has sent.';
+}else{
+	echo 'There was an error';
+}
+?>/* how to send mails*/
 
 
 
