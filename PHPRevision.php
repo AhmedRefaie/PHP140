@@ -1182,15 +1182,132 @@ if (isset($_GET['UP'])&&!empty($_GET['UP'])){
 
 
 
+UPDATE `users` SET `LastName`='Refaie' WHERE `Id`=1 /*my SQL code to change data*/
+
+
+DELETE FROM `users` WHERE `Id`=4 
+/*to delete data or full info from SQL*/
+
+
+INSERT INTO `users` VALUES ('3','5alil','khelo123','Mahmoud','Khalil')/*to insert values to your table thro SQL*/
+
+
+SELECT `users`.`Username` , `pets`.`pet` FROM `users` LEFT JOIN `pets` ON `users`.`Id`=`pets`.`user_id`/* left join method to match from tables*/
+
+
+SELECT `users`.`Username` , `pets`.`pet` FROM `users` RIGHT JOIN `pets` ON `users`.`Id`=`pets`.`user_id` /* displayes data even it dosent have a value*/
+
+
+SELECT `users`.`Username` , `pets`.`pet` FROM `users` JOIN `pets` ON `users`.`Id`=`pets`.`user_id`/* join only method matches only and ignors the rest*/
 
 
 
+SELECT `name` FROM `names` WHERE `name` LIKE '%refaie'/* searching like style to find same matches*/
+
+
+SELECT `name` FROM `names` WHERE `name` LIKE '%ref%' /*sexy results on both sides*/
+
+
+SELECT `name` FROM `names` WHERE `name` NOT LIKE '%ref%'/*if you wana search to assasinait some people not on your family lol XD*/
+
+
+ 
+
+<?php
+require 'PHPExtra.inc.php';
+
+if(isset($_POST['search_name'])) {
+	$search_name = $_POST['search_name'];
+	if(!empty($search_name)) {
+		
+		$query = "SELECT `name` FROM `names` WHERE `name` LIKE '%".mysqli_real_escape_string($link,$search_name)."%'";
+		$query_run = mysqli_query($link, $query);
+		
+		$query_num_rows = mysqli_num_rows($query_run);
+		
+		if($query_num_rows>=1){
+			echo $query_num_rows.' results found:<br>';
+			while($query_row = mysqli_fetch_assoc($query_run)){
+				echo $query_row['name'].'<br>';
+			}
+			
+		}else{
+			echo 'No match found.';
+		}
+	}
+}
+?>
+
+
+<form action="PHP.php" method="POST">
+	Name: <input type="text" name="search_name">
+	<input type="submit" value="Search">
+</form> /* awsome search engine program same phpextra data */
 
 
 
+SELECT DISTINCT `Lastname` FROM `names`/* select distinct only shows data without rebeating 1 time only tho */
+
+<?php
+require 'core.inc.php';
+if (isset($_POST['username']) &&isset($_POST['password'])){
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+	
+	$password_hash = md5($password);
+	
+	if(!empty($username)&&!empty($password)){
+		
+		$query = "SELECT `Id` FROM `users` WHERE `Username`='$username' AND `Password`='$password_hash' ";
+		
+		if($query_run= mysqli_query($link, $query)){
+			$query_num_rows = mysqli_num_rows($query_run);
+			
+		if ($query_num_rows==0) {
+			echo 'Invalid username/password combination';
+		}else if ($query_num_rows==1) {
+			echo $user_id = mysqli_result($query_run, 0 ,'id');
+			$_SESSTION['user_id'] = $userid;
+			header ('Location: php.php');
+			
+		}
+		
+		}
+		}
+			
+		
+	}else{
+		echo 'You must supply username and password';
+	}/* login code in phpextra 2*/
+
+	
 
 
+?>
 
+<form action="<?php echo $current_file; ?>" method="POST">
+Username: <input type="text" name="username">
+Password: <input type="password" name="password">
+<input type="submit" value ="Log in">
+
+</form>
+
+<?php
+ob_start();
+session_start();
+$current_file = $_SERVER['SCRIPT_NAME'];
+?>/*core file login*/
+
+<?php
+require 'core.inc.php';
+require 'PHPExtra.inc.php';
+
+if (isset($_SESSION['user_id'])&&!empty($_SESSION['user.id'])){
+	echo 'You are loged in. <a href="">Log out</a>';
+}else{ 
+	include 'PHPExtra2.php';
+}
+?>/*main page code*/
 
 
 
